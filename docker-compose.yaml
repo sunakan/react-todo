@@ -11,7 +11,7 @@ services:
         source: ${PWD}/
         target: /var/local/app/
     ports:
-      - 1234:1234
+      - 3000:3000
   nginx:
     image: nginx:stable
     volumes:
