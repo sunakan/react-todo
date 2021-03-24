@@ -1,12 +1,12 @@
 import React from 'react';
 
-const ColorfulMessage = () => {
+const ColorfulMessage = (props) => {
     const contentStyle = {
-        color: 'pink',
+        color: props.color,
         fontSize: '18px',
     };
     return (
-        <p style={contentStyle}>いえい</p>
+        <p style={contentStyle}>{props.message}</p>
     );
 };
 
