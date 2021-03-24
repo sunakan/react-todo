@@ -13,6 +13,11 @@ chown: ## sudo chown -R ${USER}:${USER} ./
 down: ## docker-compose down
 	docker-compose down
 
+.PHONY: deploy
+deploy: ## docker-compose down
+	git subtree push --prefix build/ origin gh-pages
+
+
 ################################################################################
 # マクロ
 ################################################################################

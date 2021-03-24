@@ -16,7 +16,7 @@ services:
     image: nginx:stable
     volumes:
       - type: bind
-        source: ${PWD}/
+        source: ${PWD}/build/
         target: /usr/share/nginx/html/
     ports:
       - 80:80
