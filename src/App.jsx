@@ -1,19 +1,56 @@
-import React from 'react';
-import ColofulMessage from './components/ColorfulMessage';
+import React, {useState} from 'react';
+import './styles.css';
+import {InputTodo} from "./components/InputTodo";
+import {IncompleteTodos} from "./components/IncompleteTodos";
+import {CompleteTodos} from "./components/CompleteTodos";
 
-const App = () => {
-    const onClickButton = () => {
-        console.log("HelloWorld");
+export const App = () => {
+    const [todoText, setTodoText] = useState('');
+    const [incompleteTodos, setIncompleteTodos] = useState([]);
+    const [completeTodos, setCompleteTodos] = useState([])
+
+    const onChangeTodoText = (e) => setTodoText(e.target.value);
+    const onClickAdd = () => {
+        if (todoText === "") return;
+        const newTodos = [...incompleteTodos, todoText];
+        setIncompleteTodos(newTodos);
+        setTodoText("");
     };
+    const onClickDelete = (index) => {
+        const newTodos = [...incompleteTodos];
+        newTodos.splice(index, 1);
+        setIncompleteTodos(newTodos);
+    };
+    const onClickComplete = (index) => {
+        const newIncompleteTodos = [...incompleteTodos];
+        newIncompleteTodos.splice(index, 1);
+        setIncompleteTodos(newIncompleteTodos);
+        const newCompleteTodos = [...completeTodos, incompleteTodos[index]];
+        setCompleteTodos(newCompleteTodos);
+    };
+    const onClickBack = (index) => {
+        const newCompleteTodos = [...completeTodos];
+        newCompleteTodos.splice(index, 1);
+        setCompleteTodos(newCompleteTodos);
+        const newIncompleteTodos = [...incompleteTodos, completeTodos[index]];
+        setIncompleteTodos(newIncompleteTodos);
+    };
+
     return (
         <>
-            <h1 style={{ color: 'red'}}>hello</h1>
-            <ColofulMessage color="blue" message="お元気ですか" />
-            <ColofulMessage color="green" message="お元気?" />
-            <button onClick={onClickButton}>ボタン</button>
+            <InputTodo
+                todoText={todoText}
+                onChange={onChangeTodoText}
+                onClick={onClickAdd}
+                disabled={incompleteTodos.length >= 5}
+            />
+            {incompleteTodos.length >= 5 && <p style={{color: 'red'}}>登録できるtodoは5個まで</p>}
+            <IncompleteTodos
+                incompleteTodos={incompleteTodos}
+                onClickDelete={onClickDelete}
+                onClickComplete={onClickComplete}
+            />
+            <CompleteTodos completeTodos={completeTodos} onClickBack={onClickBack}/>
         </>
     );
 };
-
-
-export default App;
